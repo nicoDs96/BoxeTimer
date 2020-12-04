@@ -12,7 +12,8 @@
   <body>
     
     <h1 class="display-1" id="displaySeconds"></h1>
-    <button type="button" class="btn btn-primary">Start</button>
+    <button id="start" type="button" class="btn btn-primary">Start</button>
+    <button id="stop" type="button" class="btn btn-primary">Stop</button>
     
     <script  src="js/src/Timer.js"></script>
     <script  src="js/src/Session.js"></script>
@@ -22,10 +23,15 @@
       //TODO: add progress bar https://getbootstrap.com/docs/4.0/components/progress/
       // TODO; add possibility to pause and restart the timer from where we paused
 
+      var session  = new BoxeSession()
+      document.getElementById('start').onclick = ()=>{
+        session.start()
+      } 
 
-       
+      document.getElementById('stop').onclick = ()=>{
+        session.stop()
+      } 
 
-        session  = new BoxeSession()
        
     </script>
   </body>
