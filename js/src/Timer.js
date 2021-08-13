@@ -1,49 +1,33 @@
 class Timer  {
-    
 
-    constructor(time, observers) {
-        this._time = time
-        this._status = "init"
-        this._seconds = 0.0
+    constructor(updateInterval = 500) {
+        this._seconds = 0.0 
+        this._observers = []
+        this._updateInterval = updateInterval
         this._updater = null
-        this._observers = observers
-    
     }
     
-    update(timer) {
+    update() {
+        this._seconds += this._updateInterval / 1000 
         
-        timer._seconds += 1 
-        
-        if(timer._status==="init"){
-            timer. _status="started"
-        } 
-
-        if(timer._seconds >= this._time){
-            timer.stop(timer)
-            timer._status = "ended"
-        }
-
-        timer._observers.forEach(observer => {
-            observer.notify( timer.getNewStatus() ) //TODO: pass a message specifying status update
+        this._observers.forEach(observer => {
+            observer.notify( this.getSeconds() )
         });
     }
     
-    start(time=null) {
-        if(time != null){
-            this._time = time
-        }
-        this._seconds = 0
-        this._status = "init"
-        this._updater = setInterval( (timer = this)=>{timer.update(timer)} ,1000)
+    start() {
+        this._updater = setInterval( 
+            (timer = this) => {timer.update()}
+            , this._updateInterval
+        )
     }
 
-    stop(timer) {
-        clearInterval( timer._updater )
+    stop() {
+        clearInterval( this._updater )
     }
-
     
-    getNewStatus() {
-        return {seconds: this._seconds, status:this._status, countingTo: this._time}
+    getSeconds() {
+        return this._seconds
     }
 
     setObservers(observersArrays) {
@@ -53,6 +37,10 @@ class Timer  {
     addObserver(observer) {
         this._observers.push(observer)
     }
-
-
+    
+    addObserverArray(observers) {
+        observers.forEach( observer => {
+            this._observers.push(observer)
+        })
+    }
 }

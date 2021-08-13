@@ -1,56 +1,69 @@
 class Session {
-    constructor(serieNumber, serieTime, restTime) {
-        this._serieNumber = serieNumber
-        this._serieTime = serieTime
-        this._restTime = restTime
-        this._timer = new Timer(0, [])
-        this._timer.addObserver(this)
-        this._serieCount = 0
-        this._status = "idle"
-        this._buzzer = new Audio('res/buzz.mp3')
+    //NB: a session is started as soon as it is added to timer's observers list
+    
+    constructor(timesArray, repetition, buzzerPath = 'res/buzz.mp3') {
+        this._timesArray = timesArray
+        this._repetition = repetition
+        this._buzzer = new Audio(buzzerPath)
+           
+        this._currentElapsedTime = 0.0
+        this._prevTime = 0.0
+        this._currentRepetition = 0
+        this._currentTimeIndex = 0 //representing the current index of this._timesArray
+        this._isStopped = false
+
+        this.updateTimeGUI(this._currentElapsedTime)
     }
 
-    start(){
-        this._status = "serie"
-        
-        this._timer.start(this._serieTime)
+    resume(){
+        //TODO: handle pause
+    }
+
+    pause(){
+        //TODO: define/store a state to handle pause
     }
 
     stop(){
-        this._status = "idle"
+        this.reset()
+        this._isStopped = true
+        this.updateTimeGUI(this._currentElapsedTime)
     }
 
-    notify(timerMessage){  
-        
-        // timerMessage = {seconds, status, countingTo}
-        console.debug(timerMessage)
-        
-        if(this._status === "idle"){
-            //Do nothing
-            return ;
-        }
-        else if(this._status === "serie" && timerMessage.status === "ended"){
-             // SWITCH TO REST
-            this.playSound()
-            this._serieCount += 1
-            this._status = "rest"
-            this._timer.start(this._restTime)
+    reset(){
+        this._currentElapsedTime = 0.0
+        this._prevTime = 0.0
+        this._currentRepetition = 0
+        this._currentTimeIndex = 0 
+        this._isStopped = false
+    }
+
+    notify(timerSeconds){  
+
+        if(!this._isStopped){
+            if(this._prevTime == 0) {this._prevTime = timerSeconds} //only for the firs update
+
+            this._currentElapsedTime += (timerSeconds - this._prevTime)
+            this._prevTime = timerSeconds
+            console.debug(`Timer Seconds ${timerSeconds}\nSession Elapsed Time ${this._currentElapsedTime}`)
+    
             
-        }
-        
-        else if(this._status === "rest" && timerMessage.status === "ended" ){
-            this.playSound()
-            if(this._serieCount >= this._serieNumber){ //End Session
-                console.log("Session Ended")
+            if(this._currentElapsedTime >= this._timesArray[this._currentTimeIndex]){ // when the first time is finished
+                this.playSound() //buzz
+                this._currentTimeIndex = (this._currentTimeIndex + 1) % this._timesArray.length // switch to next time
+                
+                if(this._currentTimeIndex == 0){ // when all the times are elapsed 
+                    this._currentRepetition += 1 //update re//TODO: resetpetition
+                }
+                console.info(`this._currentTimeIndex ${this._currentTimeIndex} this._currentRepetition ${this._currentRepetition}`)            
             }
-            else{ //Swith to SERIE
-                this._status = "serie"
-                this._timer.start(this._serieTime)
+    
+            if(this._currentRepetition == this._repetition){
+                console.info(`Stopping session: this._currentRepetition == this._repetition -> ${this._currentRepetition} == ${this._repetition}`)
+                this.stop()
             }
+                    
+            this.updateTimeGUI(this._currentElapsedTime)
         }
-            
-        this.updateTimeGUI(timerMessage.seconds)
-        
     }
 
     updateTimeGUI(currentSeconds){
@@ -61,7 +74,4 @@ class Session {
         this._buzzer.play();
     }
 
-    pause(){}
-
-    resume(){}
 }
