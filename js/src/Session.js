@@ -54,7 +54,9 @@ class Session {
                 if(this._currentTimeIndex == 0){ // when all the times are elapsed 
                     this._currentRepetition += 1 //update re//TODO: resetpetition
                 }
-                console.info(`this._currentTimeIndex ${this._currentTimeIndex} this._currentRepetition ${this._currentRepetition}`)            
+                console.info(`this._currentTimeIndex ${this._currentTimeIndex} this._currentRepetition ${this._currentRepetition}`)  
+                
+                this._currentElapsedTime = 0.0 //reset current time when switching to a new time limit          
             }
     
             if(this._currentRepetition == this._repetition){
