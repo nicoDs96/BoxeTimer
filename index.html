@@ -17,19 +17,19 @@
     
     <script  src="js/src/Timer.js"></script>
     <script  src="js/src/Session.js"></script>
-    <script  src="js/src/BoxeSession.js"></script>
     <script type="text/javascript">
 
-      //TODO: add progress bar https://getbootstrap.com/docs/4.0/components/progress/
-      // TODO; add possibility to pause and restart the timer from where we paused
-
-      var session  = new BoxeSession()
+      
+      var globalTimer = new Timer()
+      globalTimer.start()
+      var currentSession = new Session([180,60], 3)
       document.getElementById('start').onclick = ()=>{
-        session.start()
+        globalTimer.addObserver(currentSession)
       } 
 
       document.getElementById('stop').onclick = ()=>{
-        session.stop()
+        globalTimer.setObservers([]) //removing observers to stop the session
+        currentSession.stop()
       } 
 
        
