@@ -11,7 +11,7 @@ class Session {
         this._currentRepetition = 0
         this._currentTimeIndex = 0 //representing the current index of this._timesArray
         this._isStopped = false
-
+        
         this.updateTimeGUI(this._currentElapsedTime)
     }
 
@@ -44,9 +44,12 @@ class Session {
 
             this._currentElapsedTime += (timerSeconds - this._prevTime)
             this._prevTime = timerSeconds
-            console.debug(`Timer Seconds ${timerSeconds}\nSession Elapsed Time ${this._currentElapsedTime}`)
-    
             
+            /*console.debug(`isStopped ${this._isStopped}\n
+            this._currentElapsedTime ${this._currentElapsedTime}\n
+            this._timesArray[this._currentTimeIndex] ${this._timesArray[this._currentTimeIndex]}\n
+            this._currentElapsedTime >= this._timesArray[this._currentTimeIndex] ${this._currentElapsedTime >= this._timesArray[this._currentTimeIndex]}
+            `)*/
             if(this._currentElapsedTime >= this._timesArray[this._currentTimeIndex]){ // when the first time is finished
                 this.playSound() //buzz
                 this._currentTimeIndex = (this._currentTimeIndex + 1) % this._timesArray.length // switch to next time

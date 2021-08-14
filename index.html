@@ -11,27 +11,52 @@
   </head>
   <body>
     
-    <h1 class="display-1" id="displaySeconds"></h1>
-    <button id="start" type="button" class="btn btn-primary">Start</button>
-    <button id="stop" type="button" class="btn btn-primary">Stop</button>
-    
-    <script  src="js/src/Timer.js"></script>
-    <script  src="js/src/Session.js"></script>
-    <script type="text/javascript">
-
+    <div class="container">
+      <!--TIMER-->
+      <div class="row"><h1 class="display-1" id="displaySeconds"></h1></div>
+      <div class="row">
+        <div class="col">
+          <button id="start" type="button" class="btn btn-primary">Start</button>
+        </div>
+        <div class="col">
+          <div class="row"><button id="stop" type="button" class="btn btn-primary">Stop</button></div>
+        </div>
+      </div>
+    <!--TIMER INPUT CONTROLLERS-->
+      <div class="row">
+        <div class="col">
+          <p>Define all the times of a session</p>
+        </div>
+        <div class="col">
+          <button type="button" class="btn btn-success" id="add-time-input-row">+</button>
+      </div>
       
+      <div class="container time-input">
+      </div>
+      
+      <div class="row">
+        <div class="col"><p>Repetitions</p></div>
+        <div class="col"><input type="number" id="repetitionNumber" value="5"></div>
+      </div>
+      
+
+    </div>
+    
+    
+    
+    
+    
+    
+    <script  src="js/src/Model/Timer.js"></script>
+    <script  src="js/src/Model/Session.js"></script>
+    <script  src="js/src/utils/WakeLocker.js"></script>
+    <script  src="js/src/ViewController.js"></script>
+    <script type="text/javascript">
       var globalTimer = new Timer()
       globalTimer.start()
-      var currentSession = new Session([180,60], 3)
-      document.getElementById('start').onclick = ()=>{
-        globalTimer.addObserver(currentSession)
-      } 
-
-      document.getElementById('stop').onclick = ()=>{
-        globalTimer.setObservers([]) //removing observers to stop the session
-        currentSession.stop()
-      } 
-
+      initTimerControls()
+      
+      
        
     </script>
   </body>
