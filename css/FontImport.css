@@ -4,8 +4,3 @@
           url('font/DSEG7Modern-Regular.woff') format('woff'),
           url('font/DSEG7Modern-Regular.woff2') format('woff2');
   }
-
-#displaySeconds{
-    font-family: 'DSEG7';
-}
-

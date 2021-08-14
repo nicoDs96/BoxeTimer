@@ -2,9 +2,9 @@ var inputRowNr = 0
 
 const zip = (a, b) => a.map((k, i) => [k, b[i]])
 
-function createRow() {
+function createRow(classes = ["row"]) {
     let row = document.createElement("div")
-    row.classList.add("row")
+    classes.forEach(classAttr => row.classList.add(classAttr) )
     return row
 }
 function createColumn(){
@@ -15,7 +15,8 @@ function createColumn(){
 function createTimeInput(){
     let timeIn = document.createElement("input")
     timeIn.type = "number"
-    timeIn.classList.add("TimeInput")
+    timeIn.classList.add("TimeInput")//form-control 
+    timeIn.classList.add("form-control")
     return timeIn
 }
 function createDeleteButton(){
@@ -75,6 +76,24 @@ function addTimeInputRow(){
     container.append(r)
 }
 
+function createPlusButtonRow(){
+    let row = createRow()
+    let colTimeIn = createColumn()
+    let colAddBtn = createColumn()
+    let colTimeText = createColumn()
+    let addButton = document.createElement("button")
+    addButton.classList.add("btn")
+    addButton.classList.add("btn-success")
+    addButton.id = "add-time-input-row"
+    addButton.innerText = "+"
+    addButton.type = "button"
+    addButton.onclick = addTimeInputRow
+    //<button type="button" class="btn btn-success" id="add-time-input-row">+</button>
+    colAddBtn.append(addButton)
+    row.append(colTimeText, colTimeIn, colAddBtn)
+    return row
+}
+
 function getSessionFromView(){
     let timeInArray = Array.from(document.querySelectorAll(".TimeInput"))
     let secondsArray = timeInArray.map( node => node.value).map( v => parseFloat(v)+ 0.1)
@@ -84,8 +103,9 @@ function getSessionFromView(){
 }
 
 function initTimerControls(){
+    document.getElementById("displaySeconds").innerHTML = `00:00`
     addTimeInputRow()
-    document.querySelector("#add-time-input-row").onclick = addTimeInputRow
+    document.querySelector("#addButtonContainer").append(createPlusButtonRow())
     var currentSession = null
     
     document.getElementById('start').onclick = ()=>{

@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet"  href="css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet"  href="css/FontImport.css">
-    
+    <link rel="stylesheet"  href="css/main.css">
+
     <script  src="js/bootstrap/jquery-3.5.1.min.js"></script>
     <script  src="js/bootstrap/bootstrap.bundle.min.js"></script>
    
@@ -13,41 +14,32 @@
   </head>
   <body>
     
-    <div class="container">
+    <h1 class="display-1" id="displaySeconds" align="center"></h1>
+    
+    <div class="container" align="center" id="main-container">
       <!--TIMER-->
-      <div class="row"><h1 class="display-1" id="displaySeconds"></h1></div>
-      <div class="row">
-        <div class="col">
-          <button id="start" type="button" class="btn btn-primary">Start</button>
-        </div>
-        <div class="col">
-          <div class="row"><button id="stop" type="button" class="btn btn-primary">Stop</button></div>
-        </div>
-      </div>
-    <!--TIMER INPUT CONTROLLERS-->
-      <div class="row">
-        <div class="col">
-          <p>Define all the times of a session</p>
-        </div>
-        <div class="col">
-          <button type="button" class="btn btn-success" id="add-time-input-row">+</button>
-      </div>
-      
-      <div class="container time-input">
-      </div>
       
       <div class="row">
-        <div class="col"><p>Repetitions</p></div>
-        <div class="col"><input type="number" id="repetitionNumber" value="5"></div>
+        <div class="col">
+          <button id="start" type="button" class="btn btn-secondary">Start</button>
+        </div>
+        <div class="col"></div>
+        <div class="col">
+          <button id="stop" type="button" class="btn btn-secondary">Stop</button>
+        </div>
       </div>
-      
+      <div class="container">  
+        <div class="row">
+          <div class="col"><p>Repetitions</p></div>
+          <div class="col"><input type="number" id="repetitionNumber" value="5" class="form-control"></div>
+          <div class="col"></div>
+        </div>
+      </div>
 
+     <!--TIMER INPUT CONTROLLERS--> 
+      <div class="container time-input"></div>
+      <div class="container" id="addButtonContainer"></div>
     </div>
-    
-    
-    
-    
-    
     
     <script  src="js/src/Model/Timer.js"></script>
     <script  src="js/src/Model/Session.js"></script>
