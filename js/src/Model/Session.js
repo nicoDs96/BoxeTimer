@@ -45,11 +45,6 @@ class Session {
             this._currentElapsedTime += (timerSeconds - this._prevTime)
             this._prevTime = timerSeconds
             
-            /*console.debug(`isStopped ${this._isStopped}\n
-            this._currentElapsedTime ${this._currentElapsedTime}\n
-            this._timesArray[this._currentTimeIndex] ${this._timesArray[this._currentTimeIndex]}\n
-            this._currentElapsedTime >= this._timesArray[this._currentTimeIndex] ${this._currentElapsedTime >= this._timesArray[this._currentTimeIndex]}
-            `)*/
             if(this._currentElapsedTime >= this._timesArray[this._currentTimeIndex]){ // when the first time is finished
                 this.playSound() //buzz
                 this._currentTimeIndex = (this._currentTimeIndex + 1) % this._timesArray.length // switch to next time
@@ -72,7 +67,11 @@ class Session {
     }
 
     updateTimeGUI(currentSeconds){
-        document.getElementById("displaySeconds").innerHTML = `${Math.trunc(currentSeconds/60)}:${currentSeconds%60}`
+        let min = Math.trunc(currentSeconds/60)
+        let sec = Math.trunc(currentSeconds%60)
+        if(min < 10) min = `0${min}`
+        if(sec < 10) sec = `0${sec}`
+        document.getElementById("displaySeconds").innerHTML = `${min}:${sec}`
     }
 
     playSound(){
