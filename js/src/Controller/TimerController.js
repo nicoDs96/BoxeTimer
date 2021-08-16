@@ -64,13 +64,14 @@ class TimerController{
     createTimeInputRow () {
         let row = ViewUtils.createRowElement(["row", "time-in-row", "align-items-center"])
         let colTimeIn = ViewUtils.createColumnElement()
-        let colDeleteBtn = ViewUtils.createColumnElement()
+        let colDeleteBtn = ViewUtils.createColumnElement(["col", "del-btn"])
         let colTimeText = ViewUtils.createColumnElement()
         let timeIn = ViewUtils.createNumberInputElement()
         
-        let deletebtn = ViewUtils.createButtonElement("-", ["btn","btn-danger"])
-        deletebtn.onclick = (event, c = this) => {
-            event.target.parentNode.parentNode.remove()
+        colDeleteBtn.innerHTML="&#x2212;"
+        colDeleteBtn.style.fontSize="xx-large"
+        colDeleteBtn.onclick = (event, c = this) => {
+            event.target.parentNode.remove()
             c.setInputRowNr(c.getInputRowNr() -1)
             c.updateInputTimeText()
         }
@@ -78,7 +79,7 @@ class TimerController{
     
         colTimeText.append(timetext)
         colTimeIn.append(timeIn)
-        colDeleteBtn.append(deletebtn)
+        colDeleteBtn
         row.append(colTimeText, colTimeIn, colDeleteBtn)
     
         return row
@@ -98,18 +99,17 @@ class TimerController{
     createPlusButtonRow(){
         let row = ViewUtils.createRowElement()
         let colTimeIn = ViewUtils.createColumnElement()
-        let colAddBtn = ViewUtils.createColumnElement()
+        let colAddBtn = ViewUtils.createColumnElement(["col", "add-btn"])
         let colTimeText = ViewUtils.createColumnElement()
-        let addButton = ViewUtils.createButtonElement("+", ["btn", "btn-success"])
-        addButton.id = "add-time-input-row"
-        addButton.onclick = (e, c = this) => {
+        colAddBtn.id = "add-time-input-row"
+        colAddBtn.innerHTML="&#xFF0B;"
+        colAddBtn.onclick = (e, c = this) => {
             c.setInputRowNr(c.getInputRowNr() + 1)
             let container = document.querySelector(".time-input")
             let r = c.createTimeInputRow()
             container.append(r)
         }
-        //<button type="button" class="btn btn-success" id="add-time-input-row">+</button>
-        colAddBtn.append(addButton)
+        colAddBtn.style.fontSize="xx-large"
         row.append(colTimeText, colTimeIn, colAddBtn)
         return row
     }
@@ -158,7 +158,7 @@ class TimerController{
         let elList = document.querySelectorAll(".time-in-row")
         for (let i = 0; i < elList.length; i++) {
             if(i == idx && !isStopped){
-                elList[i].style.backgroundColor = 'rgba(0, 128, 0, 0.2)'
+                elList[i].style.backgroundColor = 'rgba(133, 55, 255, 0.2)'
             } else{
                 elList[i].style.backgroundColor = ""
             } 

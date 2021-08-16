@@ -10,7 +10,7 @@
 * store sessions remotely
 * allow eventually to import a stored session
 * add statistics on user usage
-* Modify start and stop with play, pause, stop icons; Modify +, - button with +, - icons or add, delete icons
+
 
 
 ## v0.2
@@ -18,6 +18,7 @@
 * ~~highlight current time (GUI)~~
 * ~~Show current repetition over total~~
 * ~~support multiple unit of measure for input time~~
+* ~~Modify start and stop with play, pause, stop icons; Modify +, - button with +, - icons or add, delete icons~~
 
 ## v0.1-alpha
 * ~~add wakelook to let screen be always on during an active session~~

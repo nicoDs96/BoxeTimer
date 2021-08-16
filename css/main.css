@@ -1,8 +1,24 @@
 #displaySeconds{
     font-family: 'DSEG7';
+    color: #8537ff;
 }
 
 .container{
     margin-top: 3vw;
 }
 
+#start{
+    color: #8c7eff;
+}
+
+#stop{
+    color: #3b0082;
+}
+
+.del-btn{
+    color: #9ec5ff;
+}
+
+#add-time-input-row{
+    color: #5800b5;
+}
