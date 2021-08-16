@@ -15,6 +15,7 @@
 #stop{
     color: #3b0082;
     font-family: monospace;
+    font-size: 70%;
 }
 
 .del-btn{
@@ -24,3 +25,4 @@
 #add-time-input-row{
     color: #5800b5;
 }
+
