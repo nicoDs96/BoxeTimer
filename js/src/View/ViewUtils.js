@@ -32,4 +32,16 @@ class ViewUtils{
         classes.forEach(classAttr => timetext.classList.add(classAttr) )
         return timetext
     }
+
+    static createSelectElement(classes = ["custom-select"], options = []){
+        let select = document.createElement("select")
+        classes.forEach(classAttr => select.classList.add(classAttr))
+        options.forEach(opt =>{
+            let optionEl = document.createElement("option")
+            optionEl.value = opt
+            optionEl.innerText = opt
+            select.append(optionEl)
+        })
+        return select
+    }
 }

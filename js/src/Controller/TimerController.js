@@ -4,11 +4,15 @@ class TimerController{
         // tells the number of time input displayed
         this._inputRowNr = 0
         this._currentSession = null
+        //used into time unit select
+        this._minText = "Min"
+        this._secText = "Sec"
         //INIT 7 SEGMENT DISPLAY LIKE TEXT
         document.getElementById("displaySeconds").innerHTML = `00:00`
         //Create the default time input row and add it to the View
         this._inputRowNr += 1
         let container = document.querySelector(".time-input")
+        container.append(this.createTimeUnitSelectRow())
         container.append(this.createTimeInputRow())
         //Add possibility to add time input row to the view on demand using a button
         document.querySelector("#addButtonContainer").append(this.createPlusButtonRow())
@@ -70,7 +74,7 @@ class TimerController{
             c.setInputRowNr(c.getInputRowNr() -1)
             c.updateInputTimeText()
         }
-        let timetext = ViewUtils.createPElement(`Time ${this.getInputRowNr()} (sec.)`, ["input-time-text-label"])
+        let timetext = ViewUtils.createPElement(`Time ${this.getInputRowNr()}`, ["input-time-text-label"])
     
         colTimeText.append(timetext)
         colTimeIn.append(timeIn)
@@ -87,7 +91,7 @@ class TimerController{
         zippedVal.map( (couple) =>{
             let nr = couple[0]
             let el = couple[1]
-            el.innerText = `Time ${nr+1} (sec.)`
+            el.innerText = `Time ${nr+1}`
         })
     }
 
@@ -109,10 +113,30 @@ class TimerController{
         row.append(colTimeText, colTimeIn, colAddBtn)
         return row
     }
+
+    createTimeUnitSelectRow(){
+        let sel = ViewUtils.createSelectElement(["custom-select"], [this._minText, this._secText])
+        let row = ViewUtils.createRowElement()
+        let label = ViewUtils.createPElement(`Time Unit`) 
+        let col1 = ViewUtils.createColumnElement()
+        let col2 = ViewUtils.createColumnElement()
+        let col3 = ViewUtils.createColumnElement()
+        col1.append(label)
+        col2.append(sel)
+        row.append(col1, col2, col3)
+        return row
+    }
     
     getSessionFromView(){
+        let unit = document.querySelector("select").value
         let timeInArray = Array.from(document.querySelectorAll(".TimeInput"))
-        let secondsArray = timeInArray.map( node => node.value).map( v => parseFloat(v)+ 0.1)
+        let secondsArray = timeInArray.map( node => node.value)
+            .map( v => {
+                let r = null
+                if(unit == this._minText) r = parseFloat(v) * 60 + 0.1 
+                else r = parseFloat(v)+ 0.1
+                return r
+            })
         let sessionRepetitionNumber = parseInt(document.querySelector("#repetitionNumber").value)
         console.debug(`Input Seconds ${secondsArray}; Repetitions ${sessionRepetitionNumber}`)
         return new Session(secondsArray, sessionRepetitionNumber)
