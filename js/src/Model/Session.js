@@ -11,8 +11,8 @@ class Session {
         this._currentRepetition = 0
         this._currentTimeIndex = 0 //representing the current index of this._timesArray
         this._isStopped = false
-        
-        this.updateTimeGUI(this._currentElapsedTime)
+
+        this._observers = []
     }
 
     resume(){
@@ -26,7 +26,6 @@ class Session {
     stop(){
         this.reset()
         this._isStopped = true
-        this.updateTimeGUI(this._currentElapsedTime)
     }
 
     reset(){
@@ -62,20 +61,28 @@ class Session {
                 this.stop()
             }
                     
-            this.updateTimeGUI(this._currentElapsedTime)
+            this._observers.forEach(observer => {
+                observer.notify( this.getState() )
+            });
         }
-    }
-
-    updateTimeGUI(currentSeconds){
-        let min = Math.trunc(currentSeconds/60)
-        let sec = Math.trunc(currentSeconds%60)
-        if(min < 10) min = `0${min}`
-        if(sec < 10) sec = `0${sec}`
-        document.getElementById("displaySeconds").innerHTML = `${min}:${sec}`
     }
 
     playSound(){
         this._buzzer.play();
+    }
+
+    addObserver(o){
+        this._observers.push(o)
+    }
+
+    getState(){
+        return { "Component": this.constructor.name
+            , "timesArray" : this._timesArray
+            , "repetition" : this._repetition 
+            , "currentElapsedTime" : this._currentElapsedTime
+            , "currentRepetition" : this._currentRepetition 
+            , "currentTimeIndex" : this._currentTimeIndex 
+            , "isStopped" : this._isStopped}
     }
 
 }
