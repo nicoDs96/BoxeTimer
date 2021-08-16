@@ -13,17 +13,19 @@ class TimerController{
         //Add possibility to add time input row to the view on demand using a button
         document.querySelector("#addButtonContainer").append(this.createPlusButtonRow())
         
-        
+        //Set start and stop behaviours
         document.getElementById('start').onclick = (e, c = this) => {
             let session = c.getSessionFromView()
             session.addObserver(c)
             c.setCurrentSession(session)
             globalTimer.addObserver(c.getCurrentSession())
         } 
-    
         document.getElementById('stop').onclick = (e, c = this) => {
           globalTimer.setObservers([]) //removing observers to stop the session
           c.getCurrentSession().stop()
+
+          //Setting the element invisible and making it visible when the session start
+          document.getElementById("currentRepetition").style.visibility="hidden"
         } 
     }
 
@@ -40,6 +42,12 @@ class TimerController{
             , "isStopped" : this._isStopped}
              */
             this.update7SegmentTime(state["currentElapsedTime"])
+            this.updateCurrentRepetitionUI(state["currentRepetition"], state["repetition"])
+            if(state["isStopped"]==false){
+                document.getElementById("currentRepetition").style.visibility="visible"
+            }
+            this.highlightCurrentTime(state["currentTimeIndex"], state["isStopped"])
+
         }
     }
 
@@ -50,7 +58,7 @@ class TimerController{
     setCurrentSession(s){this._currentSession = s}
 
     createTimeInputRow () {
-        let row = ViewUtils.createRowElement()
+        let row = ViewUtils.createRowElement(["row", "time-in-row", "align-items-center"])
         let colTimeIn = ViewUtils.createColumnElement()
         let colDeleteBtn = ViewUtils.createColumnElement()
         let colTimeText = ViewUtils.createColumnElement()
@@ -116,5 +124,20 @@ class TimerController{
         if(min < 10) min = `0${min}`
         if(sec < 10) sec = `0${sec}`
         document.getElementById("displaySeconds").innerHTML = `${min}:${sec}`
+    }
+    
+    updateCurrentRepetitionUI(currentRep, repNr){
+        document.getElementById("currentRepetition").innerText = `Repetition ${currentRep+1}/${repNr}`
+    }
+
+    highlightCurrentTime(idx, isStopped){
+        let elList = document.querySelectorAll(".time-in-row")
+        for (let i = 0; i < elList.length; i++) {
+            if(i == idx && !isStopped){
+                elList[i].style.backgroundColor = 'rgba(0, 128, 0, 0.2)'
+            } else{
+                elList[i].style.backgroundColor = ""
+            } 
+        }
     }
 }
