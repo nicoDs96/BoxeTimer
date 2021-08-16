@@ -44,11 +44,15 @@
     <script  src="js/src/Model/Timer.js"></script>
     <script  src="js/src/Model/Session.js"></script>
     <script  src="js/src/utils/WakeLocker.js"></script>
-    <script  src="js/src/ViewController.js"></script>
+    <script  src="js/src/utils/zip.js"></script>
+    <script  src="js/src/View/ViewUtils.js"></script>
+    <script  src="js/src/Controller/TimerController.js"></script>
+
     <script type="text/javascript">
       var globalTimer = new Timer()
       globalTimer.start()
-      initTimerControls()
+      let timerController = new TimerController()
+      
       
       
        
