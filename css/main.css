@@ -9,10 +9,12 @@
 
 #start{
     color: #8c7eff;
+    font-family: monospace;
 }
 
 #stop{
     color: #3b0082;
+    font-family: monospace;
 }
 
 .del-btn{
